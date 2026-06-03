@@ -2,7 +2,6 @@
 //  AppModel.swift
 //  NurseyConnect-visionOS
 //
-//  Created by Udula on 2026-05-30.
 //
 
 import SwiftUI

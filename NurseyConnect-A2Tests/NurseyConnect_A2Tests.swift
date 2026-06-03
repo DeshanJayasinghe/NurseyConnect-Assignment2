@@ -2,7 +2,6 @@
 //  NurseyConnect_A2Tests.swift
 //  NurseyConnect-A2Tests
 //
-//  Created by Udula on 2026-05-29.
 //
 
 import XCTest

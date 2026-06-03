@@ -2,7 +2,6 @@
 //  NurseyConnect_visionOSTests.swift
 //  NurseyConnect-visionOSTests
 //
-//  Created by Udula on 2026-05-30.
 //
 
 import Testing

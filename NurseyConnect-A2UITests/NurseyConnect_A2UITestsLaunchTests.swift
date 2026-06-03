@@ -2,7 +2,6 @@
 //  NurseyConnect_A2UITestsLaunchTests.swift
 //  NurseyConnect-A2UITests
 //
-//  Created by Udula on 2026-05-29.
 //
 
 import XCTest
