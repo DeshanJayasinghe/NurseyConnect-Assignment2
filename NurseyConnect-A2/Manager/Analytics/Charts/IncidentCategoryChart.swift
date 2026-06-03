@@ -2,7 +2,6 @@
 //  IncidentCategoryChart.swift
 //  NurseyConnect-A2
 //
-//
 
 import SwiftUI
 import Charts
@@ -21,13 +20,7 @@ struct IncidentCategoryChart: View {
                     x: .value("Count",    item.count),
                     y: .value("Category", item.category)
                 )
-                .foregroundStyle(Color.nurseryAccent.gradient)
-                .cornerRadius(4)
-                .annotation(position: .trailing) {
-                    Text("\(item.count)")
-                        .font(.caption2.bold())
-                        .foregroundStyle(.secondary)
-                }
+                .foregroundStyle(Color.nurseryAccent)
             }
             .chartXAxis {
                 AxisMarks(values: .automatic(desiredCount: 4)) { AxisValueLabel(); AxisGridLine() }
