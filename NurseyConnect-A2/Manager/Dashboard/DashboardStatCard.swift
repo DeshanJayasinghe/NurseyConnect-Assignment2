@@ -2,8 +2,6 @@
 //  DashboardStatCard.swift
 //  NurseyConnect-A2
 //
-//  Created by Udula on 2026-05-29.
-//
 
 import SwiftUI
 
@@ -16,23 +14,39 @@ struct DashboardStatCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(color)
-                    .frame(width: 40, height: 40)
-                    .background(color.opacity(0.12))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            HStack(alignment: .top) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(
+                            LinearGradient(
+                                colors: [color, color.opacity(0.65)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 44, height: 44)
+                        .shadow(color: color.opacity(0.3), radius: 6, x: 0, y: 3)
+
+                    Image(systemName: icon)
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.white)
+                }
                 Spacer()
+                Image(systemName: "arrow.up.right")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
             }
+
             Text(value)
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                .font(.system(size: 34, design: .rounded, weight: .black))
                 .foregroundStyle(.primary)
                 .lineLimit(1)
-                .minimumScaleFactor(0.7)
+                .minimumScaleFactor(0.6)
+
             Text(title)
                 .font(.sectionHead)
                 .foregroundStyle(.primary)
+
             if !subtitle.isEmpty {
                 Text(subtitle)
                     .font(.bodySmall)
