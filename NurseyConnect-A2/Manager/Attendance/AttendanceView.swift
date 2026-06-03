@@ -2,8 +2,6 @@
 //  AttendanceView.swift
 //  NurseyConnect-A2
 //
-//  Created by Udula on 2026-05-29.
-//
 
 import SwiftUI
 import SwiftData
@@ -37,18 +35,19 @@ struct AttendanceView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Controls bar — two rows to avoid cramping
+            // Controls bar
             VStack(spacing: AppSpacing.sm) {
                 HStack {
                     Label("Date", systemImage: "calendar")
-                        .font(.bodySmall)
-                        .foregroundStyle(.secondary)
+                        .font(.system(.subheadline, design: .rounded, weight: .semibold))
+                        .foregroundStyle(Color.nurseryPrimary)
                     Spacer()
                     DatePicker("", selection: $selectedDate, displayedComponents: .date)
                         .labelsHidden()
                         .tint(Color.nurseryPrimary)
                 }
-                // Room filter — horizontal selectable chips
+
+                // Room filter chips
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: AppSpacing.sm) {
                         roomChip(title: "All Rooms", isSelected: selectedRoomID == nil) {
@@ -61,10 +60,37 @@ struct AttendanceView: View {
                         }
                     }
                 }
-                HStack {
-                    Text("\(presentCount) of \(activeChildren.count) present")
-                        .font(.sectionHead)
-                        .foregroundStyle(Color.nurseryPrimary)
+
+                // Summary pill
+                HStack(spacing: AppSpacing.sm) {
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(Color.nurseryPrimary)
+                            .frame(width: 8, height: 8)
+                        Text("\(presentCount) present")
+                            .font(.system(.caption, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.nurseryPrimary)
+                    }
+                    .padding(.horizontal, AppSpacing.sm)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule().fill(Color.nurseryPrimary.opacity(0.12))
+                    )
+
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(Color.secondary.opacity(0.5))
+                            .frame(width: 8, height: 8)
+                        Text("\(activeChildren.count - presentCount) absent")
+                            .font(.system(.caption, design: .rounded, weight: .semibold))
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.horizontal, AppSpacing.sm)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule().fill(Color.secondary.opacity(0.1))
+                    )
+
                     Spacer()
                 }
             }
@@ -99,12 +125,16 @@ struct AttendanceView: View {
     private func roomChip(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
-                .font(.system(.subheadline, design: .rounded, weight: isSelected ? .bold : .regular))
-                .foregroundStyle(isSelected ? .white : .primary)
+                .font(.system(.caption, design: .rounded, weight: isSelected ? .bold : .semibold))
+                .foregroundStyle(isSelected ? .white : Color.nurseryPrimary)
                 .padding(.horizontal, AppSpacing.md)
                 .padding(.vertical, AppSpacing.sm)
                 .background(
-                    Capsule().fill(isSelected ? Color.nurseryPrimary : Color.secondary.opacity(0.15))
+                    Capsule().fill(
+                        isSelected
+                            ? AnyShapeStyle(LinearGradient.nurseryHero)
+                            : AnyShapeStyle(Color.nurseryPrimary.opacity(0.10))
+                    )
                 )
         }
         .buttonStyle(.plain)
