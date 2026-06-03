@@ -2,8 +2,6 @@
 //  ManagerDashboardView.swift
 //  NurseyConnect-A2
 //
-//  Created by Udula on 2026-05-29.
-//
 
 import SwiftUI
 import SwiftData
@@ -44,7 +42,29 @@ struct ManagerDashboardView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppSpacing.lg) {
 
-                // Stat cards grid — tap to navigate to relevant section
+                // Welcome banner
+                HStack(spacing: AppSpacing.md) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Good morning 👋")
+                            .font(.system(.subheadline, design: .rounded, weight: .medium))
+                            .foregroundStyle(.secondary)
+                        Text("Today's Overview")
+                            .font(.system(.title2, design: .rounded, weight: .black))
+                            .foregroundStyle(.primary)
+                    }
+                    Spacer()
+                    Text(Date.now, style: .date)
+                        .font(.system(.caption, design: .rounded, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, AppSpacing.sm)
+                        .padding(.vertical, 5)
+                        .background(
+                            Capsule().fill(Color.nurseryPrimary.opacity(0.12))
+                        )
+                }
+                .padding(.horizontal, AppSpacing.xs)
+
+                // Stat cards grid
                 LazyVGrid(columns: columns, spacing: AppSpacing.md) {
                     Button { onNavigate?(.attendance) } label: {
                         DashboardStatCard(title: "Children Present", value: "\(presentCount)",
@@ -71,7 +91,7 @@ struct ManagerDashboardView: View {
 
                     Button { onNavigate?(.analytics) } label: {
                         DashboardStatCard(title: "Meals Logged", value: "\(mealsToday)",
-                            icon: "fork.knife", color: .orange, subtitle: "Today")
+                            icon: "fork.knife", color: .nurseryTeal, subtitle: "Today")
                     }
                     .buttonStyle(.plain)
                 }
@@ -79,32 +99,51 @@ struct ManagerDashboardView: View {
                 // Room ratio overview
                 if !rooms.isEmpty {
                     VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                        Text("Room Status")
-                            .font(.sectionHead)
-                            .padding(.horizontal, AppSpacing.xs)
+                        HStack {
+                            Text("Room Status")
+                                .font(.sectionHead)
+                            Spacer()
+                            Button { onNavigate?(.rooms) } label: {
+                                Text("View all")
+                                    .font(.system(.caption, design: .rounded, weight: .semibold))
+                                    .foregroundStyle(Color.nurseryPrimary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal, AppSpacing.xs)
 
                         VStack(spacing: AppSpacing.sm) {
                             ForEach(rooms) { room in
                                 Button { onNavigate?(.rooms) } label: {
-                                    HStack {
-                                        Circle()
+                                    HStack(spacing: AppSpacing.sm) {
+                                        RoundedRectangle(cornerRadius: 4)
                                             .fill(Color(hex: room.colorHex))
-                                            .frame(width: 10, height: 10)
-                                        Text(room.name)
-                                            .font(.cardTitle)
-                                            .foregroundStyle(.primary)
+                                            .frame(width: 4, height: 36)
+
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(room.name)
+                                                .font(.cardTitle)
+                                                .foregroundStyle(.primary)
+                                            Text(room.ageGroup.rawValue)
+                                                .font(.system(.caption2, design: .rounded))
+                                                .foregroundStyle(.secondary)
+                                        }
+
                                         Spacer()
+
                                         Text(room.ratioString)
                                             .font(.bodySmall)
                                             .foregroundStyle(.secondary)
                                         RatioBadge(room: room)
                                         Image(systemName: "chevron.right")
-                                            .font(.caption)
+                                            .font(.caption2)
                                             .foregroundStyle(.tertiary)
                                     }
-                                    .padding(AppSpacing.md)
+                                    .padding(.horizontal, AppSpacing.md)
+                                    .padding(.vertical, AppSpacing.sm + 2)
                                     .background(Color.nurseryCard)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                                    .shadow(color: Color.nurseryPrimary.opacity(0.06), radius: 5, x: 0, y: 2)
                                 }
                                 .buttonStyle(.plain)
                             }
