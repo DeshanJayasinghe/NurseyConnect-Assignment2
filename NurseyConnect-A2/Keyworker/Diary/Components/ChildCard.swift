@@ -40,7 +40,7 @@ struct ChildCard: View {
                         Image(systemName: "allergens")
                             .font(.system(size: 9, weight: .bold))
                         Text("Allergy")
-                            .font(.system(size: 9, design: .rounded, weight: .bold))
+                            .font(.system(size: 9, weight: .bold, design: .rounded))
                     }
                     .foregroundStyle(Color.nurseryAccent)
                     .padding(.horizontal, 6)
