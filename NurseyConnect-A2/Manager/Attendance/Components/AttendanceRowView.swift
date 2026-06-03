@@ -2,8 +2,6 @@
 //  AttendanceRowView.swift
 //  NurseyConnect-A2
 //
-//  Created by Udula on 2026-05-29.
-//
 
 import SwiftUI
 
@@ -15,7 +13,7 @@ struct AttendanceRowView: View {
 
     private var statusColor: Color {
         guard let rec = record else { return .secondary }
-        return rec.isPresent ? .green : .gray
+        return rec.isPresent ? Color.nurseryPrimary : .gray
     }
 
     private var statusLabel: String {
@@ -31,10 +29,16 @@ struct AttendanceRowView: View {
 
     var body: some View {
         HStack(spacing: AppSpacing.md) {
-            Circle()
-                .fill(LinearGradient.nurseryAvatar)
-                .frame(width: 44, height: 44)
-                .overlay { Text(child.initials).font(.cardTitle).foregroundStyle(.white) }
+            // Avatar
+            ZStack {
+                Circle()
+                    .fill(LinearGradient.nurseryAvatar)
+                    .frame(width: 44, height: 44)
+                    .shadow(color: Color.nurseryPrimary.opacity(0.2), radius: 4, x: 0, y: 2)
+                Text(child.initials)
+                    .font(.system(.callout, design: .rounded, weight: .bold))
+                    .foregroundStyle(.white)
+            }
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(child.preferredName).font(.cardTitle)
@@ -48,14 +52,24 @@ struct AttendanceRowView: View {
 
             if record == nil {
                 Button("Check In", action: onCheckIn)
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color.nurseryPrimary)
-                    .controlSize(.small)
+                    .font(.system(.caption, design: .rounded, weight: .bold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, AppSpacing.sm + 2)
+                    .padding(.vertical, 6)
+                    .background(
+                        Capsule().fill(LinearGradient.nurseryHero)
+                    )
+                    .buttonStyle(.plain)
             } else if record?.isPresent == true {
                 Button("Check Out", action: onCheckOut)
-                    .buttonStyle(.bordered)
-                    .tint(Color.nurseryAccent)
-                    .controlSize(.small)
+                    .font(.system(.caption, design: .rounded, weight: .bold))
+                    .foregroundStyle(Color.nurseryAccent)
+                    .padding(.horizontal, AppSpacing.sm + 2)
+                    .padding(.vertical, 6)
+                    .background(
+                        Capsule().strokeBorder(Color.nurseryAccent, lineWidth: 1.5)
+                    )
+                    .buttonStyle(.plain)
             } else {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundStyle(.secondary)
