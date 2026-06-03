@@ -2,8 +2,6 @@
 //  AppTheme.swift
 //  NurseyConnect-A2
 //
-//  Created by Udula on 2026-05-29.
-//
 
 import SwiftUI
 
@@ -62,8 +60,12 @@ struct NurseryCardModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(Color.nurseryCard)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.07), radius: 4, x: 0, y: 2)
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+            .shadow(color: Color.nurseryPrimary.opacity(0.08), radius: 8, x: 0, y: 3)
+            .overlay(
+                RoundedRectangle(cornerRadius: 18)
+                    .strokeBorder(Color.nurseryPrimary.opacity(0.07), lineWidth: 1)
+            )
     }
 }
 
@@ -91,5 +93,16 @@ extension LinearGradient {
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
-}
 
+    static let nurseryHero = LinearGradient(
+        colors: [Color.nurseryPrimary.opacity(0.9), Color.nurseryTeal.opacity(0.85)],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+
+    static let nurseryAccentGrad = LinearGradient(
+        colors: [Color.nurseryAccent, Color.nurseryAccent.opacity(0.75)],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+}
