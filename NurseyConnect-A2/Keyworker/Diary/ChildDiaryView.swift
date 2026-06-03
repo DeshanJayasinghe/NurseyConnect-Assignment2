@@ -34,24 +34,7 @@ struct ChildDiaryView: View {
                 } else {
                     List {
                         ForEach(DiaryEntryType.allCases) { type in
-                            let typeEntries = entries(for: type)
-                            if !typeEntries.isEmpty {
-                                Section {
-                                    ForEach(typeEntries) { entry in
-                                        DiaryEntryRow(entry: entry)
-                                            .listRowBackground(Color.nurseryCard)
-                                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                                Button(role: .destructive) {
-                                                    modelContext.delete(entry)
-                                                } label: { Label("Delete", systemImage: "trash") }
-                                            }
-                                    }
-                                } header: {
-                                    Label(type.rawValue, systemImage: type.systemImage)
-                                        .foregroundStyle(type.color)
-                                        .font(.sectionHead)
-                                }
-                            }
+                            DiaryTypeSection(type: type, typeEntries: entries(for: type), onDelete: { modelContext.delete($0) })
                         }
                     }
                     .listStyle(.insetGrouped)
@@ -85,6 +68,34 @@ struct ChildDiaryView: View {
             case .meal:     MealEntryForm(child: child)
             case .nappy:    NappyEntryForm(child: child)
             case .mood:     MoodEntryForm(child: child)
+            }
+        }
+    }
+}
+
+private struct DiaryTypeSection: View {
+    let type: DiaryEntryType
+    let typeEntries: [DiaryEntry]
+    let onDelete: (DiaryEntry) -> Void
+
+    var body: some View {
+        if typeEntries.isEmpty {
+            EmptyView()
+        } else {
+            Section {
+                ForEach(typeEntries) { entry in
+                    DiaryEntryRow(entry: entry)
+                        .listRowBackground(Color.nurseryCard)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                onDelete(entry)
+                            } label: { Label("Delete", systemImage: "trash") }
+                        }
+                }
+            } header: {
+                Label(type.rawValue, systemImage: type.systemImage)
+                    .foregroundStyle(type.color)
+                    .font(.sectionHead)
             }
         }
     }
