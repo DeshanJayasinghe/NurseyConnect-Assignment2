@@ -5,6 +5,7 @@
 //
 
 import PDFKit
+#if canImport(UIKit)
 import UIKit
 
 final class PDFReportGenerator {
@@ -185,3 +186,4 @@ final class PDFReportGenerator {
         date.formatted(date: .omitted, time: .shortened)
     }
 }
+#endif
