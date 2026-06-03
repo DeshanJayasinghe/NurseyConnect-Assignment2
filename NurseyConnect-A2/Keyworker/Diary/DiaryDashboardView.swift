@@ -45,7 +45,7 @@ struct DiaryDashboardView: View {
         .navigationDestination(item: $selectedChild) { child in
             ChildDiaryView(child: child, date: selectedDate)
         }
-    }
+    } 
 }
 
 #Preview {
