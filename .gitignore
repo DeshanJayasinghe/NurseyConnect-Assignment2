@@ -1,0 +1,36 @@
+# Xcode
+*.xcuserstate
+xcuserdata/
+*.moved-aside
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Build
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# CocoaPods / SPM
+Pods/
+.build/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# SwiftData / Core Data
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Reality Composer Pro (auto-generated 3D assets, not used in our implementation)
+*.rcprojectdata
+*.rcproject
+Packages/RealityKitContent/Sources/RealityKitContent/*.rkassets/
+Packages/RealityKitContent/Package.realitycomposerpro/
