@@ -2,8 +2,6 @@
 //  ManagerSidebarView.swift
 //  NurseyConnect-A2
 //
-//  Created by Udula on 2026-05-29.
-//
 
 import SwiftUI
 import SwiftData
@@ -20,36 +18,79 @@ struct ManagerSidebarView: View {
 
     var body: some View {
         List(selection: $selection) {
-            ForEach(ManagerSection.allCases) { section in
-                Label(section.rawValue, systemImage: section.systemImage)
-                    .badge(section == .incidents && pendingCount > 0 ? pendingCount : 0)
-                    .tag(section)
+            // App brand header inside the list
+            Section {
+                HStack(spacing: AppSpacing.sm) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(LinearGradient.nurseryHero)
+                            .frame(width: 36, height: 36)
+                        Image(systemName: "heart.circle.fill")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(.white)
+                    }
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("NurseyConnect")
+                            .font(.system(.subheadline, design: .rounded, weight: .black))
+                            .foregroundStyle(Color.nurseryPrimary)
+                        Text("Manager Portal")
+                            .font(.system(.caption2, design: .rounded))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .padding(.vertical, AppSpacing.xs)
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+            }
+
+            Section("Navigation") {
+                ForEach(ManagerSection.allCases) { section in
+                    Label(section.rawValue, systemImage: section.systemImage)
+                        .badge(section == .incidents && pendingCount > 0 ? pendingCount : 0)
+                        .tag(section)
+                }
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle("NurseyConnect")
+        .navigationTitle("")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     showingKeyworker = true
                 } label: {
-                    Label("Keyworker", systemImage: "person.fill")
+                    HStack(spacing: 4) {
+                        Image(systemName: "person.fill")
+                        Text("Keyworker")
+                            .font(.system(.caption, design: .rounded, weight: .semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, AppSpacing.sm)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule().fill(LinearGradient.nurseryHero)
+                    )
                 }
-                .tint(Color.nurseryPrimary)
+                .buttonStyle(.plain)
                 .help("Switch to Keyworker View")
             }
         }
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
                 Divider()
-                HStack {
-                    Image(systemName: "building.2.fill")
-                        .foregroundStyle(Color.nurseryPrimary)
+                HStack(spacing: AppSpacing.sm) {
+                    ZStack {
+                        Circle()
+                            .fill(LinearGradient.nurseryAvatar)
+                            .frame(width: 34, height: 34)
+                        Text("LS")
+                            .font(.system(.caption, design: .rounded, weight: .bold))
+                            .foregroundStyle(.white)
+                    }
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Little Stars Nursery")
-                            .font(.bodySmall.bold())
+                            .font(.system(.caption, design: .rounded, weight: .bold))
                         Text("Setting Manager")
-                            .font(.caption)
+                            .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
