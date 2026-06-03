@@ -38,7 +38,7 @@ struct DashboardStatCard: View {
             }
 
             Text(value)
-                .font(.system(size: 34, design: .rounded, weight: .black))
+                .font(.system(size: 34, weight: .black, design: .rounded))
                 .foregroundStyle(.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
