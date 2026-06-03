@@ -2,7 +2,6 @@
 //  AttendanceTrendChart.swift
 //  NurseyConnect-A2
 //
-//
 
 import SwiftUI
 import Charts
@@ -21,20 +20,9 @@ struct AttendanceTrendChart: View {
                     x: .value("Date", point.date, unit: .day),
                     y: .value("Present", point.count)
                 )
-                .foregroundStyle(Color.nurseryPrimary.gradient)
-                .cornerRadius(4)
+                .foregroundStyle(Color.nurseryPrimary)
             }
-            .chartXAxis {
-                AxisMarks(values: .automatic(desiredCount: 5)) { value in
-                    if let date = value.as(Date.self) {
-                        AxisValueLabel {
-                            Text(date, format: .dateTime.month(.abbreviated).day())
-                                .font(.caption2)
-                        }
-                    }
-                    AxisGridLine()
-                }
-            }
+            .chartXAxis(.hidden)
             .chartYAxis {
                 AxisMarks { AxisValueLabel(); AxisGridLine() }
             }
