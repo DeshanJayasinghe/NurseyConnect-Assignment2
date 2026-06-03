@@ -2,8 +2,6 @@
 //  ImmersiveView.swift
 //  NurseyConnect-visionOS
 //
-//  Created by Udula on 2026-05-30.
-//
 
 import SwiftUI
 import RealityKit
@@ -13,7 +11,7 @@ struct ImmersiveView: View {
     private let rooms = VisionSampleData.rooms
     @State private var showIncidentDetail = false
 
-    // Tight row — all 3 panels close and comfortable, slight arc facing user
+    // Tight arc facing the user
     private func panelPosition(index: Int) -> SIMD3<Float> {
         let x: [Float] = [-1.0, 0.0, 1.0]
         let z: [Float] = [-1.6, -1.8, -1.6]
@@ -30,7 +28,6 @@ struct ImmersiveView: View {
             let anchor = AnchorEntity(world: .zero)
             content.add(anchor)
 
-            // Room panels — tight comfortable row
             for (index, room) in rooms.enumerated() {
                 guard let panel = attachments.entity(for: room.id) else { continue }
                 panel.position = panelPosition(index: index)
@@ -38,21 +35,18 @@ struct ImmersiveView: View {
                 anchor.addChild(panel)
             }
 
-            // Incident card — centred above the panels
             if let card = attachments.entity(for: "incidentCard") {
                 card.position = SIMD3<Float>(0, 2.1, -1.8)
                 anchor.addChild(card)
             }
 
         } attachments: {
-            // Room panels
             ForEach(rooms) { room in
                 Attachment(id: room.id) {
                     RoomPanelView(room: room)
                 }
             }
 
-            // Incident card — always visible, fully interactive SwiftUI
             Attachment(id: "incidentCard") {
                 IncidentAlertCard(
                     isExpanded: $showIncidentDetail,
@@ -69,48 +63,93 @@ private struct IncidentAlertCard: View {
     @Binding var isExpanded: Bool
     let onToggle: () -> Void
 
+    private let vPrimary = Color(nurseryHex: "#6C6FE8")
+    private let vAmber   = Color(nurseryHex: "#F5A31A")
+
     var body: some View {
-        VStack(alignment: .center, spacing: 8) {
-            // Compact badge — same style as "Ratios OK" in the main window title
+        VStack(alignment: .center, spacing: 10) {
+
+            // Compact pulse badge
             Button(action: onToggle) {
                 HStack(spacing: 8) {
-                    Image(systemName: "bell.badge.fill")
-                        .font(.system(.subheadline, weight: .bold))
-                        .foregroundStyle(.white)
+                    ZStack {
+                        Circle()
+                            .fill(.white.opacity(0.2))
+                            .frame(width: 24, height: 24)
+                        Image(systemName: "bell.badge.fill")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(.white)
+                    }
                     Text("1 Pending Incident")
                         .font(.system(.subheadline, design: .rounded, weight: .bold))
                         .foregroundStyle(.white)
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption2).foregroundStyle(.white.opacity(0.8))
+                        .font(.system(.caption2, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.75))
                 }
-                .padding(.horizontal, 14).padding(.vertical, 8)
-                .background(.red.opacity(0.9), in: Capsule())
-                .shadow(color: .red.opacity(0.4), radius: 8)
+                .padding(.horizontal, 16).padding(.vertical, 10)
+                .background(
+                    LinearGradient(
+                        colors: [vAmber, vAmber.opacity(0.8)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    in: Capsule()
+                )
+                .shadow(color: vAmber.opacity(0.45), radius: 10)
             }
             .buttonStyle(.plain)
             .hoverEffect()
             .symbolEffect(.pulse)
 
-            // Expanded detail
+            // Expanded detail card
             if isExpanded {
-                VStack(alignment: .leading, spacing: 10) {
-                    detailRow("Reference", "INC-20260529-001")
-                    detailRow("Child",     "Oliver Davies")
-                    detailRow("Type",      "Fall — Minor")
-                    detailRow("Location",  "Sunshine Room")
-                    detailRow("Reported",  "Sarah Mitchell")
-                    detailRow("Status",    "⏳ Pending Review")
+                VStack(alignment: .leading, spacing: 12) {
 
-                    Text("Immediate action taken: Child comforted. No visible injury. Alert and responsive.")
-                        .font(.caption)
+                    // Header row inside card
+                    HStack(spacing: 10) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(vAmber.opacity(0.15))
+                                .frame(width: 36, height: 36)
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundStyle(vAmber)
+                        }
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("INC-20260529-001")
+                                .font(.system(.subheadline, design: .rounded, weight: .bold))
+                            Text("Pending Review")
+                                .font(.system(.caption2, design: .rounded, weight: .semibold))
+                                .foregroundStyle(vAmber)
+                        }
+                    }
+
+                    Divider()
+
+                    VStack(spacing: 8) {
+                        detailRow("Child",     "Oliver Davies")
+                        detailRow("Type",      "Fall — Minor")
+                        detailRow("Location",  "Sunshine Room")
+                        detailRow("Reported",  "Sarah Mitchell")
+                    }
+
+                    Divider()
+
+                    Text("Child comforted. No visible injury. Alert and responsive.")
+                        .font(.system(.caption, design: .rounded))
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(16)
+                .padding(18)
                 .frame(width: 320)
-                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 16))
+                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 18))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18)
+                        .strokeBorder(vAmber.opacity(0.2), lineWidth: 1)
+                )
                 .transition(.opacity.combined(with: .scale(scale: 0.95, anchor: .top)))
-                .padding(.top, 8)
+                .padding(.top, 6)
             }
         }
     }
@@ -118,15 +157,16 @@ private struct IncidentAlertCard: View {
     private func detailRow(_ label: String, _ value: String) -> some View {
         HStack {
             Text(label)
-                .font(.caption).foregroundStyle(.secondary)
-                .frame(width: 75, alignment: .leading)
+                .font(.system(.caption, design: .rounded))
+                .foregroundStyle(.secondary)
+                .frame(width: 72, alignment: .leading)
             Text(value)
-                .font(.caption.bold())
+                .font(.system(.caption, design: .rounded, weight: .semibold))
         }
     }
 }
 
-// MARK: - Safe array subscript helper
+// MARK: - Safe array subscript
 
 private extension Array {
     subscript(safe index: Int) -> Element? {
