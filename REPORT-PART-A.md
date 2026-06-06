@@ -9,7 +9,7 @@
 
 ## Demo Video
 
-▶️ [Watch Part A Demo — NurseyConnect iPadOS](https://drive.google.com/file/d/1Wnc3PbqnJqt5817kuTgHVF5o1x-u51l3/view?usp=sharing)
+▶️ [Watch Part A Demo — NurseyConnect iPadOS](https://drive.google.com/file/d/1KkIXGjn3ukPZpX3rsc1yTZtUsV4hFgp6/view?usp=drive_link)
 
 > Setting Manager dashboard, Rooms with drag & drop, Attendance check-in/out,
 > Analytics charts (Swift Charts), PDF report generation (PDFKit),
