@@ -9,7 +9,7 @@
 
 ## Demo Video
 
-▶️ [Watch Part B Demo — NurseyConnect Space (visionOS)](https://drive.google.com/file/d/1MMZweu73Wvls0dYAEYkNG5SwhsLvT4IF/view?usp=drive_link)
+▶️ [Watch Part B Demo — NurseyConnect Space (visionOS)](https://drive.google.com/file/d/1KkIXGjn3ukPZpX3rsc1yTZtUsV4hFgp6/view?usp=drive_link)
 
 > Main glass window with stats and room list, expandable children rows,
 > immersive space with floating room panels anchored in physical space,
